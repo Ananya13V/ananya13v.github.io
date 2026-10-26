@@ -408,7 +408,7 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
     function fill(i,pop){
       var x=QA[i];
       reply.innerHTML=AV+'<div class="rbody"><div class="who">Ananya</div><div class="abub'+(pop?' pop':'')+'"><p class="ans">'+x.a+'</p></div>'
-        +'<div class="filed">Filed under <b>'+x.g+'</b></div><div class="stickers">'+x.s.map(function(k){return '<span class="sticker">'+k+'</span>'}).join('')+'</div></div>';
+        +'<div class="filed">Category: <b>'+x.g+'</b></div><div class="stickers">'+x.s.map(function(k){return '<span class="sticker">'+k+'</span>'}).join('')+'</div></div>';
     }
     function pick(i,user){
       active=i;var my=++tok;
