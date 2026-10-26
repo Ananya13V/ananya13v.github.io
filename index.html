@@ -386,18 +386,20 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
     track.innerHTML=bubbles(false)+bubbles(true);
     // the questions drift from right to left and never stop; hovering only slows them so one can be pressed
     if(!calm){
-      var first=track.firstChild,W=0,pos=0,last=0,hover=false,speed=30,vis=true;
+      var first=track.firstChild,W=0,pos=0,last=0,hover=false,speed=30,vis=true,ex=0;
       function measure(){W=first.getBoundingClientRect().width}
       measure();addEventListener('resize',measure);
       if(document.fonts&&document.fonts.ready)document.fonts.ready.then(measure);
-      roll.addEventListener('pointerenter',function(e){if(e.pointerType==='mouse')hover=true});
+      // mouse in the middle: slow enough to press a question; near the right edge: faster (forward); near the left edge: runs backwards
+      roll.addEventListener('pointermove',function(e){if(e.pointerType!=='mouse')return;var r=roll.getBoundingClientRect();hover=true;ex=((e.clientX-r.left)/r.width)*2-1});
+      function target(){if(!hover)return 30;var r=Math.max(0,(Math.abs(ex)-.6)/.4);return ex>0?7+233*r:7-247*r}
       roll.addEventListener('pointerleave',function(){hover=false});
       roll.addEventListener('scroll',function(){roll.scrollLeft=0});
       if(window.IntersectionObserver)new IntersectionObserver(function(en){vis=en[0].isIntersecting}).observe(roll);
       requestAnimationFrame(function step(now){
         var dt=Math.min(.05,(now-(last||now))/1000);last=now;
-        speed+=((hover?7:30)-speed)*Math.min(1,dt*5);
-        pos-=speed*dt;if(W&&pos<=-W)pos+=W;
+        speed+=(target()-speed)*Math.min(1,dt*5);
+        pos-=speed*dt;if(W){if(pos<=-W)pos+=W;else if(pos>0)pos-=W}
         if(vis)track.style.transform='translateX('+pos.toFixed(2)+'px)';
         requestAnimationFrame(step);
       });
