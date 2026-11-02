@@ -202,7 +202,8 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
 .exp{width:min(1040px,calc(100vw - 2*var(--gut)));margin:0 auto;padding-block:24px 56px;display:flex;flex-direction:column;gap:28px}
 .xtl{--pad:64px;--lx:25px;position:relative;padding:8px 0 8px var(--pad)}
 .xtl .line{position:absolute;left:calc(var(--lx) - 1px);top:8px;bottom:8px;width:2px;border-radius:2px;background:linear-gradient(var(--sunc),var(--olive) 55%,var(--muted));opacity:.8}
-.xtl .marker{position:absolute;left:calc(var(--lx) - 16px);top:0;width:32px;height:32px;transform:translateY(var(--my,8px));z-index:2}
+.xtl .rail{position:absolute;left:calc(var(--lx) - 16px);top:8px;bottom:8px;width:32px;z-index:2}
+.xtl .marker{position:sticky;top:calc(45vh - 16px);top:calc(45svh - 16px);width:32px;height:32px}
 .xglow{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity .5s}
 .marker span{position:absolute;inset:0;border-radius:50%;transition:opacity .4s}
 .m-sun{background:var(--sunc);box-shadow:0 0 16px 4px rgba(226,169,63,.55)}
@@ -320,7 +321,7 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
   <section class="exp" id="experience" aria-label="Experience">
     <div class="pr-head"><p class="eyebrow">Experience</p><h2>Where I've worked</h2></div>
     <div class="xglow" id="xglow"></div>
-    <div class="xtl" id="xtl"><div class="line"></div><div class="marker" id="xmk"><span class="m-sun"></span><span class="m-moon"></span></div>
+    <div class="xtl" id="xtl"><div class="line"></div><div class="rail"><div class="marker" id="xmk"><span class="m-sun"></span><span class="m-moon"></span></div></div>
       <article class="xentry">
         <div class="xhead">
           <div><div class="when">Sept 2025 – Present</div><h3 class="role">Analyst II</h3><div class="org">Deloitte USI</div></div>
@@ -551,18 +552,21 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
   // Experience: the marker is a sun at the top (now) and turns into a moon further down; the tracker counts the current engagement live.
   (function(){
     var d=$('xtl'),mk=$('xmk'),gl=$('xglow'),sunE=mk.children[0],moonE=mk.children[1];
+    // no screen height is used here: the marker's own position along the line says how far through the journey it is
+    var inView=true,tick1=0;
     function tl(){
-      var r=d.getBoundingClientRect(),h=r.height;
-      // the marker starts at the top of the line when the section reaches mid-screen and arrives at the very end of the line once the section's bottom is near the bottom of the screen
-      var top0=innerHeight*.5-24,top1=innerHeight*.88-h,pr=Math.max(0,Math.min(1,(top0-r.top)/Math.max(1,top0-top1))),y=8+pr*(h-48);
-      mk.style.setProperty('--my',y+'px');
+      tick1=0;
+      var r=d.getBoundingClientRect(),m=mk.getBoundingClientRect();
+      var pr=Math.max(0,Math.min(1,(m.top-(r.top+8))/Math.max(1,r.height-48)));
       var night=pr>.55;
       sunE.style.opacity=night?0:1;moonE.style.opacity=night?1:0;
-      var m=mk.getBoundingClientRect(),c=night?'rgba(214,224,190,.17)':'rgba(226,169,63,.2)';
+      var c=night?'rgba(214,224,190,.17)':'rgba(226,169,63,.2)';
       gl.style.background='radial-gradient(circle 300px at '+(m.left+16)+'px '+(m.top+16)+'px,'+c+',transparent 70%)';
-      gl.style.opacity=Math.max(0,Math.min(1,r.bottom/200,(innerHeight-r.top)/200));
+      gl.style.opacity=inView?1:0;
     }
-    addEventListener('scroll',tl,{passive:true});addEventListener('resize',tl);tl();
+    function queue(){if(!tick1)tick1=requestAnimationFrame(tl)}
+    if(window.IntersectionObserver)new IntersectionObserver(function(en){inView=en[0].isIntersecting;queue()}).observe(d);
+    addEventListener('scroll',queue,{passive:true});addEventListener('resize',queue);tl();
 
     var tk=$('tracker'),start=new Date(tk.getAttribute('data-start')),mainBtn=$('tkmain'),full=$('tkfull'),lastS=-1,lastMin=-1;
     var gy=tk.querySelector('[data-g="y"]'),gmo=tk.querySelector('[data-g="mo"]'),gd=tk.querySelector('[data-g="d"]'),sEl=tk.querySelector('[data-k="s"]');
