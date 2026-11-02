@@ -134,9 +134,66 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
 @keyframes bob{50%{transform:translateY(-4px);opacity:.5}}
 @media (max-width:560px){.reply{flex-direction:column;gap:10px}.av{width:48px;height:48px}}
 @media (prefers-reduced-motion:reduce){.rolltrack{transform:none!important;width:auto;overflow-x:auto}.rolltrack .set+.set{display:none}.abub.pop,.typing3 i{animation:none}.qb{transition:none}}
+/* certifications scrapbook and contact postcard */
+:root{--paper:#fbfaf0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#242a1a}}
+:root[data-theme="dark"]{--paper:#242a1a}
+.certs{max-width:1040px;margin:0 auto;padding-block:24px 56px;display:flex;flex-direction:column;gap:30px}
+.scrap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:44px 34px;padding:16px 8px}
+.tk{position:relative;transform:rotate(var(--r,0deg));filter:drop-shadow(0 6px 9px rgba(30,34,16,.2));transition:transform .3s,filter .3s}
+.tk:nth-child(1){--r:-2deg}.tk:nth-child(2){--r:1.6deg;margin-top:28px}.tk:nth-child(3){--r:2.2deg}.tk:nth-child(4){--r:-1.4deg;margin-top:22px}
+.tk:nth-child(5){--r:-.6deg;grid-column:1/-1;justify-self:center;width:calc(50% - 17px)}
+.tk:hover{transform:rotate(0) translateY(-4px);filter:drop-shadow(0 12px 15px rgba(30,34,16,.26))}
+.ticket{--stub:112px;position:relative;display:grid;grid-template-columns:minmax(0,1fr) var(--stub);min-height:120px;border-radius:8px;background:var(--paper);box-shadow:inset 0 0 0 1px var(--line);
+  -webkit-mask:radial-gradient(circle 9px at calc(100% - var(--stub)) 0,#0000 98%,#000) top/100% 51% no-repeat,radial-gradient(circle 9px at calc(100% - var(--stub)) 100%,#0000 98%,#000) bottom/100% 51% no-repeat;
+  mask:radial-gradient(circle 9px at calc(100% - var(--stub)) 0,#0000 98%,#000) top/100% 51% no-repeat,radial-gradient(circle 9px at calc(100% - var(--stub)) 100%,#0000 98%,#000) bottom/100% 51% no-repeat}
+.ticket::after{content:"";position:absolute;top:14px;bottom:14px;left:calc(100% - var(--stub));border-left:2px dashed color-mix(in srgb,var(--olive) 45%,transparent)}
+.tmain{display:flex;flex-direction:column;justify-content:center;gap:7px;min-width:0;padding:18px 18px 18px 22px}
+.tissuer{font:500 .64rem var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.ttitle{font:italic 500 clamp(1.05rem,2.3vw,1.3rem)/1.22 var(--f-head);color:var(--head);text-wrap:balance}
+.tstub{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:10px 8px;text-align:center}
+.tstub small{font:500 .56rem var(--f-body);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.tstub b{font:italic 500 1.55rem/1 var(--f-head);color:var(--fg)}
+.tstub span{font:500 .8rem var(--f-body);font-variant-numeric:tabular-nums;color:var(--muted)}
+.tape{position:absolute;z-index:2;top:-13px;left:46%;width:86px;height:25px;transform:translateX(-50%) rotate(-3deg);border-radius:2px;opacity:.9;
+  background:repeating-linear-gradient(45deg,color-mix(in srgb,var(--olive) 72%,transparent) 0 7px,color-mix(in srgb,var(--olive) 46%,transparent) 7px 14px)}
+.tk:nth-child(even) .tape{left:30%;transform:translateX(-50%) rotate(4deg);background:repeating-linear-gradient(45deg,color-mix(in srgb,var(--sunc) 75%,transparent) 0 7px,color-mix(in srgb,var(--sunc) 50%,transparent) 7px 14px)}
+.tk:nth-child(3) .tape{left:66%}
+.nstk{position:absolute;z-index:3;right:-9px;top:-15px;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--sunc);color:#4a3306;font:italic 600 .8rem var(--f-head);transform:rotate(14deg);box-shadow:0 2px 5px rgba(0,0,0,.22)}
+.contact{max-width:760px;margin:0 auto;padding-block:24px 120px}
+.post{position:relative;padding:34px 34px 26px;border:1px solid var(--line);border-radius:6px;background:var(--paper);transform:rotate(-.6deg);box-shadow:0 10px 24px rgba(30,34,16,.14)}
+.post-head{display:flex;flex-direction:column;gap:10px;padding-right:118px}
+.post-head h2{margin:0;font:italic 500 clamp(1.9rem,4.5vw,2.8rem)/1.1 var(--f-head);color:var(--head)}
+.post-head p{margin:0;font-size:.92rem;line-height:1.6;color:var(--muted);max-width:44ch}
+.stamp{position:absolute;right:26px;top:24px;display:grid;place-items:center;width:78px;height:94px;border:2px dashed color-mix(in srgb,var(--olive) 60%,transparent);border-radius:4px;background:color-mix(in srgb,var(--sunc) 20%,var(--paper));transform:rotate(3deg)}
+.stamp svg{width:50px;height:50px;overflow:visible}
+.stamp .nt{display:none}
+:root[data-phase="night"] .stamp .dy{display:none}
+:root[data-phase="night"] .stamp .nt{display:inline}
+.pm{position:absolute;right:92px;top:34px;width:92px;height:62px;opacity:.5;pointer-events:none}
+.addr{margin-top:26px;display:flex;flex-direction:column}
+.arow{display:grid;grid-template-columns:84px minmax(0,1fr) auto;align-items:baseline;gap:12px;padding:13px 0 9px;border-bottom:1px solid color-mix(in srgb,var(--olive) 35%,transparent)}
+.alab{font:500 .64rem var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.aval{font:italic 500 clamp(1.05rem,2.7vw,1.35rem)/1.25 var(--f-head);color:var(--head);text-decoration:none;overflow-wrap:anywhere}
+a.aval:hover{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+a.aval:focus-visible,.copy:focus-visible{outline:2px solid var(--olive);outline-offset:3px;border-radius:3px}
+a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
+#mailText::after{content:none}
+.copy{font:500 .72rem var(--f-body);color:var(--fg);cursor:pointer;border:1px solid var(--line);background:none;padding:3px 11px;border-radius:999px;min-width:5.2em}
+.copy:hover{border-color:var(--olive)}
+@media (max-width:700px){
+  .scrap{grid-template-columns:minmax(0,1fr);gap:34px}
+  .tk:nth-child(n){margin-top:0;width:auto;grid-column:auto;justify-self:stretch}
+  .tk:nth-child(odd){margin-right:10px}.tk:nth-child(even){margin-left:10px}
+  .ticket{--stub:94px}.tmain{padding:16px 12px 16px 18px}
+  .post{padding:26px 20px 18px}.post-head{padding-right:84px}
+  .stamp{width:62px;height:76px;right:16px;top:18px}.stamp svg{width:40px;height:40px}.pm{right:70px;top:26px;width:70px;height:48px}
+  .arow{grid-template-columns:minmax(0,1fr) auto;gap:3px 8px;padding:12px 0 8px}.alab{grid-column:1/-1}.aval{font-size:1.05rem}
+}
+@media (prefers-reduced-motion:reduce){.tk{transition:none}}
 /* experience: day-to-night timeline, latest role first */
 :root{--sunc:#e2a93f;--moonc:#e9ecd4}
-.exp{max-width:1040px;margin:0 auto;padding-block:24px 120px;display:flex;flex-direction:column;gap:28px}
+.exp{max-width:1040px;margin:0 auto;padding-block:24px 56px;display:flex;flex-direction:column;gap:28px}
 .xtl{--pad:64px;--lx:25px;position:relative;padding:8px 0 8px var(--pad)}
 .xtl .line{position:absolute;left:calc(var(--lx) - 1px);top:8px;bottom:8px;width:2px;border-radius:2px;background:linear-gradient(var(--sunc),var(--olive) 55%,var(--muted));opacity:.8}
 .xtl .marker{position:absolute;left:calc(var(--lx) - 16px);top:0;width:32px;height:32px;transform:translateY(var(--my,8px));z-index:2}
@@ -284,6 +341,31 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
           <li>Engineered a prompt-guided document translation pipeline with M2M100 (Hugging Face), writing prompts to control tone and formatting across 10 languages. Built, documented and shipped to production independently.</li>
         </ul>
       </article>
+    </div>
+  </section>
+
+  <section class="certs" id="certifications" aria-label="Certifications">
+    <div class="pr-head"><p class="eyebrow">Certifications</p><h2>Collected so far</h2></div>
+    <div class="scrap">
+      <article class="tk"><span class="tape" aria-hidden="true"></span><span class="nstk" aria-hidden="true">new</span><div class="ticket"><div class="tmain"><span class="tissuer">Anthropic</span><h3 class="ttitle">Claude Certified Developer, Foundations (CCDF-F)</h3></div><div class="tstub"><small>Issued</small><b>Sept</b><span>2026</span></div></div></article>
+      <article class="tk"><span class="tape" aria-hidden="true"></span><span class="nstk" aria-hidden="true">new</span><div class="ticket"><div class="tmain"><span class="tissuer">Anthropic</span><h3 class="ttitle">Claude Certified Associate, Foundations (CCAO-F)</h3></div><div class="tstub"><small>Issued</small><b>Sept</b><span>2026</span></div></div></article>
+      <article class="tk"><span class="tape" aria-hidden="true"></span><div class="ticket"><div class="tmain"><span class="tissuer">Microsoft &amp; LinkedIn</span><h3 class="ttitle">Career Essentials in Generative AI</h3></div><div class="tstub"><small>Issued</small><b>Feb</b><span>2026</span></div></div></article>
+      <article class="tk"><span class="tape" aria-hidden="true"></span><div class="ticket"><div class="tmain"><span class="tissuer">Google Cloud Skills Boost</span><h3 class="ttitle">Develop GenAI Apps with Gemini and Streamlit</h3></div><div class="tstub"><small>Issued</small><b>May</b><span>2025</span></div></div></article>
+      <article class="tk"><span class="tape" aria-hidden="true"></span><div class="ticket"><div class="tmain"><span class="tissuer">Google</span><h3 class="ttitle">Build Real-World AI Applications with Gemini and Imagen</h3></div><div class="tstub"><small>Issued</small><b>Apr</b><span>2025</span></div></div></article>
+    </div>
+  </section>
+
+  <section class="contact" id="contact" aria-label="Contact">
+    <div class="post">
+      <svg class="pm" viewBox="0 0 92 62" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" style="color:var(--muted)"><circle cx="64" cy="31" r="26"/><path d="M2 14q6-5 12 0t12 0 12 0M2 28q6-5 12 0t12 0 12 0M2 42q6-5 12 0t12 0 12 0"/></g></svg>
+      <div class="stamp" aria-hidden="true"><svg viewBox="0 0 56 56"><g class="dy"><g stroke="#e2a93f" stroke-width="2.6" stroke-linecap="round"><path d="M49 28h5M42.85 42.85l3.55 3.55M28 49v5M13.15 42.85 9.6 46.4M7 28H2M13.15 13.15 9.6 9.6M28 7V2M42.85 13.15l3.55-3.55"/></g><circle cx="28" cy="28" r="15" fill="#e2a93f"/></g><g class="nt"><defs><clipPath id="stc"><circle cx="28" cy="28" r="16"/></clipPath></defs><circle cx="28" cy="28" r="16" fill="#c3c9a6"/><circle cx="19" cy="24" r="16" fill="#e9ecd4" clip-path="url(#stc)"/></g></svg></div>
+      <div class="post-head"><h2>Say hello</h2><p>Have a project, a role or a question in mind? I'd love to hear from you.</p></div>
+      <div class="addr">
+        <div class="arow"><span class="alab">Email</span><a class="aval" id="mailText" href="mailto:ananyaverma13@gmail.com" style="--x:0">ananyaverma13@gmail.com</a><button class="copy" id="copyMail" type="button" aria-label="Copy email address">Copy</button></div>
+        <div class="arow"><span class="alab">GitHub</span><a class="aval" href="https://github.com/Ananya13V" target="_blank" rel="noopener">github.com/Ananya13V</a><span></span></div>
+        <div class="arow"><span class="alab">LinkedIn</span><a class="aval" href="https://www.linkedin.com/in/13av" target="_blank" rel="noopener">linkedin.com/in/13av</a><span></span></div>
+        <div class="arow"><span class="alab">LeetCode</span><a class="aval" href="https://leetcode.com/u/ananyaverma13/" target="_blank" rel="noopener">leetcode.com/u/ananyaverma13</a><span></span></div>
+      </div>
     </div>
   </section>
 
@@ -487,6 +569,16 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
     document.addEventListener('click',function(){tk.classList.remove('open');mainBtn.setAttribute('aria-expanded','false')});
     document.addEventListener('keydown',function(e){if(e.key==='Escape'){tk.classList.remove('open');mainBtn.setAttribute('aria-expanded','false')}});
     (function loop(){tick();setTimeout(loop,1000-(Date.now()%1000)+5)})();
+  })();
+
+  // Contact: copy the email address; falls back to selecting it when the browser refuses clipboard access.
+  (function(){
+    var b=$('copyMail'),t='ananyaverma13@gmail.com',timer=0;
+    function say(x){b.textContent=x;clearTimeout(timer);timer=setTimeout(function(){b.textContent='Copy'},1800)}
+    function pick(){try{var r=document.createRange();r.selectNodeContents($('mailText'));var sel=getSelection();sel.removeAllRanges();sel.addRange(r);say('Selected')}catch(e){say('Copy')}}
+    b.addEventListener('click',function(){
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){say('Copied')},pick)}else pick();
+    });
   })();
 
   // Disco: 5 seconds of beams and light spots from the ball, eased in and out, then back to normal.
