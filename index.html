@@ -10,6 +10,7 @@
 <style>
 /* Layout: one scrolling page. Hero first: the heading sits at the centre of a half-ellipse orbit; the sun (6am-6pm) or moon (6pm-6am) travels along it by local time and lights the text. */
 :root{
+  --gut:clamp(16px,4vw,40px);
   --bg:#f3f2e7; --fg:#262a1b; --muted:#6a6f55; --line:#cfcfb6; --surface:#e9e8d6;
   --head:#4e5b1c; --olive:#6b7a2a; --shadow-c:78 91 28;
   --f-head:'Playfair Display',Georgia,serif; --f-body:'DM Sans',system-ui,sans-serif;
@@ -20,9 +21,10 @@
 :root[data-theme="dark"]{
   --bg:#15180f; --fg:#e8e9d6; --muted:#a2a888; --line:#333a22; --surface:#1e2315;
   --head:#c3d371; --olive:#a3b64a; --shadow-c:0 0 0; color-scheme:dark}
-body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--f-body);padding-inline:16px;transition:background .6s,color .6s}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--f-body);padding-inline:0;transition:background .6s,color .6s}
+html,body{overflow-x:clip}
 .page{margin:0 auto}
-.top,.dev{max-width:1040px;margin-inline:auto}
+.top,.dev{width:min(1040px,calc(100vw - 2*var(--gut)));margin-inline:auto}
 .top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-block:16px}
 .mark{font:italic 500 1.4rem var(--f-head);color:var(--head)}
 .controls{display:flex;gap:8px;flex-wrap:wrap}
@@ -30,7 +32,8 @@ button{font:500 .85rem var(--f-body);cursor:pointer;border:1px solid var(--line)
 button:hover{border-color:var(--olive)}
 button:focus-visible,input:focus-visible{outline:2px solid var(--olive);outline-offset:2px}
 .themebtn{position:fixed;z-index:5;top:calc(env(safe-area-inset-top,0px) + 12px);right:16px;background:color-mix(in srgb,var(--surface) 80%,transparent);backdrop-filter:blur(6px)}
-.hero{margin-inline:-16px;position:relative;overflow:hidden;padding-top:clamp(120px,22vw,190px);padding-bottom:120px;box-sizing:border-box}
+.hero{position:relative;overflow:hidden;width:100%;padding-top:clamp(120px,22vw,190px);padding-bottom:120px;box-sizing:border-box;
+  min-height:clamp(560px,100vh,900px);min-height:clamp(560px,100svh,900px)}
 /* disco ball and its 5-second party */
 .disco{position:absolute;z-index:4;right:max(44px,3vw);bottom:clamp(32px,9vh,96px);width:72px;height:72px;padding:0;border:0;background:none;border-radius:50%;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .disco:focus-visible{outline:2px solid var(--olive);outline-offset:4px}
@@ -60,7 +63,7 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
 .dev input[type=range]{flex:1 1 220px;min-width:0;accent-color:var(--olive)}
 .dev time{font-variant-numeric:tabular-nums;min-width:11ch}
 /* project carousel */
-.projects{position:relative;z-index:1;max-width:1040px;margin:calc(-1*clamp(44px,8vh,80px)) auto 0;padding-block:24px 96px;display:flex;flex-direction:column;gap:28px}
+.projects{position:relative;z-index:1;width:min(1040px,calc(100vw - 2*var(--gut)));margin:calc(-1*clamp(44px,8vh,80px)) auto 0;padding-block:24px 96px;display:flex;flex-direction:column;gap:28px}
 .pr-head{display:flex;flex-direction:column;gap:8px}
 .pr-head .eyebrow{text-align:left}
 .pr-head h2{margin:0;font:italic 500 clamp(1.9rem,4.5vw,2.8rem)/1.1 var(--f-head);color:var(--head)}
@@ -93,15 +96,15 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
 .dot[aria-current="true"]::before{background:var(--olive);transform:scale(1.15);box-shadow:0 0 0 4px color-mix(in srgb,var(--olive) 22%,transparent),0 0 16px 4px color-mix(in srgb,var(--olive) 55%,transparent)}
 @media (max-width:699px){
   .slide{grid-template-columns:minmax(0,1fr);gap:20px}
-  .arrow{position:absolute;z-index:2;top:calc((100vw - 32px) * .375);transform:translateY(-50%);width:38px;height:38px;background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(6px)}
+  .arrow{position:absolute;z-index:2;top:calc((100vw - 2*var(--gut) - 8px) * .375);transform:translateY(-50%);width:38px;height:38px;background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(6px)}
   .arrow:hover{transform:translateY(-50%)}
   .arrow.prev{left:8px}.arrow.next{right:8px}
 }
 @media (prefers-reduced-motion:reduce){.track{transition:none}}
 /* skills: questions about Ananya roll left to right; press one to hear the answer */
-.qa{max-width:1040px;margin:0 auto;padding-block:40px 64px;display:flex;flex-direction:column;gap:26px}
+.qa{width:min(1040px,calc(100vw - 2*var(--gut)));margin:0 auto;padding-block:40px 64px;display:flex;flex-direction:column;gap:26px}
 .qa .hint{margin:0;font-size:.85rem;color:var(--muted)}
-.roll{position:relative;overflow:hidden;padding-block:14px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+.roll{position:relative;overflow:hidden;touch-action:pan-y;padding-block:14px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
 .rolltrack{display:flex;width:max-content;will-change:transform}
 .set{display:flex;gap:20px;padding-right:20px}
 .qb{position:relative;flex:none;max-width:min(78vw,340px);text-align:left;padding:15px 22px 15px 24px;border-radius:24px 24px 24px 6px;border:1.5px solid color-mix(in srgb,var(--sunc) 65%,transparent);background:color-mix(in srgb,var(--sunc) 20%,var(--bg));color:var(--fg);font:italic 500 1.12rem/1.3 var(--f-head);transform:rotate(var(--r,-1.5deg));transition:transform .25s,background .25s,box-shadow .25s}
@@ -138,7 +141,7 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
 :root{--paper:#fbfaf0}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#242a1a}}
 :root[data-theme="dark"]{--paper:#242a1a}
-.certs{max-width:1040px;margin:0 auto;padding-block:24px 56px;display:flex;flex-direction:column;gap:30px}
+.certs{width:min(1040px,calc(100vw - 2*var(--gut)));margin:0 auto;padding-block:24px 56px;display:flex;flex-direction:column;gap:30px}
 .scrap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:44px 34px;padding:16px 8px}
 .tk{position:relative;transform:rotate(var(--r,0deg));filter:drop-shadow(0 6px 9px rgba(30,34,16,.2));transition:transform .3s,filter .3s}
 .tk:nth-child(1){--r:-2deg}.tk:nth-child(2){--r:1.6deg;margin-top:28px}.tk:nth-child(3){--r:2.2deg}.tk:nth-child(4){--r:-1.4deg;margin-top:22px}
@@ -160,7 +163,7 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
 .tk:nth-child(even) .tape{left:30%;transform:translateX(-50%) rotate(4deg);background:repeating-linear-gradient(45deg,color-mix(in srgb,var(--sunc) 75%,transparent) 0 7px,color-mix(in srgb,var(--sunc) 50%,transparent) 7px 14px)}
 .tk:nth-child(3) .tape{left:66%}
 .nstk{position:absolute;z-index:3;right:-9px;top:-15px;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--sunc);color:#4a3306;font:italic 600 .8rem var(--f-head);transform:rotate(14deg);box-shadow:0 2px 5px rgba(0,0,0,.22)}
-.contact{max-width:760px;margin:0 auto;padding-block:24px 120px}
+.contact{width:min(760px,calc(100vw - 2*var(--gut)));margin:0 auto;padding-block:24px 120px}
 .post{position:relative;padding:34px 34px 26px;border:1px solid var(--line);border-radius:6px;background:var(--paper);transform:rotate(-.6deg);box-shadow:0 10px 24px rgba(30,34,16,.14)}
 .post-head{display:flex;flex-direction:column;gap:10px;padding-right:118px}
 .post-head h2{margin:0;font:italic 500 clamp(1.9rem,4.5vw,2.8rem)/1.1 var(--f-head);color:var(--head)}
@@ -196,10 +199,11 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
 @media (prefers-reduced-motion:reduce){.tk{transition:none}}
 /* experience: day-to-night timeline, latest role first */
 :root{--sunc:#e2a93f;--moonc:#e9ecd4}
-.exp{max-width:1040px;margin:0 auto;padding-block:24px 56px;display:flex;flex-direction:column;gap:28px}
+.exp{width:min(1040px,calc(100vw - 2*var(--gut)));margin:0 auto;padding-block:24px 56px;display:flex;flex-direction:column;gap:28px}
 .xtl{--pad:64px;--lx:25px;position:relative;padding:8px 0 8px var(--pad)}
 .xtl .line{position:absolute;left:calc(var(--lx) - 1px);top:8px;bottom:8px;width:2px;border-radius:2px;background:linear-gradient(var(--sunc),var(--olive) 55%,var(--muted));opacity:.8}
-.xtl .marker{position:absolute;left:calc(var(--lx) - 16px);top:0;width:32px;height:32px;transform:translateY(var(--my,8px));z-index:2}
+.xtl .rail{position:absolute;left:calc(var(--lx) - 16px);top:8px;bottom:8px;width:32px;z-index:2}
+.xtl .marker{position:sticky;top:calc(45vh - 16px);top:calc(45svh - 16px);width:32px;height:32px}
 .xglow{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity .5s}
 .marker span{position:absolute;inset:0;border-radius:50%;transition:opacity .4s}
 .m-sun{background:var(--sunc);box-shadow:0 0 16px 4px rgba(226,169,63,.55)}
@@ -317,7 +321,7 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
   <section class="exp" id="experience" aria-label="Experience">
     <div class="pr-head"><p class="eyebrow">Experience</p><h2>Where I've worked</h2></div>
     <div class="xglow" id="xglow"></div>
-    <div class="xtl" id="xtl"><div class="line"></div><div class="marker" id="xmk"><span class="m-sun"></span><span class="m-moon"></span></div>
+    <div class="xtl" id="xtl"><div class="line"></div><div class="rail"><div class="marker" id="xmk"><span class="m-sun"></span><span class="m-moon"></span></div></div>
       <article class="xentry">
         <div class="xhead">
           <div><div class="when">Sept 2025 – Present</div><h3 class="role">Analyst II</h3><div class="org">Deloitte USI</div></div>
@@ -394,10 +398,10 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
     // wide and flat on desktop, narrower and taller on phones
     var w=hero.clientWidth,mob=w<700,sz=mob?.8:1,k=mob?.65:1;
     // the heading block sits in the vertical middle of the first screen; the hero is one screen tall
-    var bh=center.offsetHeight,H=Math.max(560,Math.min(window.innerHeight||700,900));
+    var bh=center.offsetHeight,H=parseFloat(getComputedStyle(hero).minHeight)||Math.max(560,Math.min(window.innerHeight||700,900)); // the hero is one small-viewport screen tall (svh), set in CSS
     var padT=Math.max(48,(H-bh)/2),cx=w/2,cyA=padT+bh+4;
     var ry=Math.min(mob?Math.min(w*.72,280):Math.min(w*.33,320),cyA-46),rx=Math.max(120,w/2-(mob?26:48));
-    hero.style.paddingTop=padT+'px';hero.style.paddingBottom=Math.max(120,H-padT-bh)+'px';hero.style.minHeight=H+'px';
+    hero.style.paddingTop=padT+'px';hero.style.paddingBottom=Math.max(120,H-padT-bh)+'px';
     var th=Math.PI*(1-p),x=cx+rx*Math.cos(th),y=cyA-ry*Math.sin(th);
     var sS=46*sz,mS=40*sz;
     sun.style.width=sun.style.height=sS+'px';moon.style.width=moon.style.height=mS+'px';
@@ -494,20 +498,35 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
     track.innerHTML=bubbles(false)+bubbles(true);
     // the questions drift from right to left and never stop; hovering only slows them so one can be pressed
     if(!calm){
-      var first=track.firstChild,W=0,pos=0,last=0,hover=false,speed=30,vis=true,ex=0;
+      var first=track.firstChild,W=0,pos=0,last=0,hover=false,speed=30,vis=true,ex=0,down=false,dragging=false,sx=0,spos=0,lx=0,lt=0,vel=0;
       function measure(){W=first.getBoundingClientRect().width}
       measure();addEventListener('resize',measure);
       if(document.fonts&&document.fonts.ready)document.fonts.ready.then(measure);
       // mouse in the middle: slow enough to press a question; near the right edge: faster (forward); near the left edge: runs backwards
-      roll.addEventListener('pointermove',function(e){if(e.pointerType!=='mouse')return;var r=roll.getBoundingClientRect();hover=true;ex=((e.clientX-r.left)/r.width)*2-1});
+      // finger or mouse drag: the questions follow it, and a flick keeps them gliding for a moment
+      function wrap(){if(W){pos=pos%W;if(pos>0)pos-=W}}
+      roll.addEventListener('pointerdown',function(e){
+        if(e.pointerType==='mouse'&&e.button!==0)return;
+        down=true;dragging=false;sx=lx=e.clientX;spos=pos;lt=performance.now();vel=0});
+      roll.addEventListener('pointermove',function(e){
+        if(e.pointerType==='mouse'){var r=roll.getBoundingClientRect();hover=true;ex=((e.clientX-r.left)/r.width)*2-1}
+        if(!down)return;
+        var dx=e.clientX-sx;
+        if(!dragging){if(Math.abs(dx)<6)return;dragging=true;try{roll.setPointerCapture(e.pointerId)}catch(_){}}
+        var now=performance.now(),dt=Math.max(1,now-lt);vel=.8*vel+.2*((e.clientX-lx)/dt*1000);lx=e.clientX;lt=now;
+        pos=spos+dx;wrap()});
+      function release(){
+        if(!down)return;down=false;
+        if(dragging){dragging=false;speed=Math.max(-700,Math.min(700,-vel))}}
+      roll.addEventListener('pointerup',release);
+      roll.addEventListener('pointercancel',release);
       function target(){if(!hover)return 30;var r=Math.max(0,(Math.abs(ex)-.6)/.4);return ex>0?7+233*r:7-247*r}
       roll.addEventListener('pointerleave',function(){hover=false});
       roll.addEventListener('scroll',function(){roll.scrollLeft=0});
       if(window.IntersectionObserver)new IntersectionObserver(function(en){vis=en[0].isIntersecting}).observe(roll);
       requestAnimationFrame(function step(now){
         var dt=Math.min(.05,(now-(last||now))/1000);last=now;
-        speed+=(target()-speed)*Math.min(1,dt*5);
-        pos-=speed*dt;if(W){if(pos<=-W)pos+=W;else if(pos>0)pos-=W}
+        if(!dragging){speed+=(target()-speed)*Math.min(1,dt*5);pos-=speed*dt;wrap()}
         if(vis)track.style.transform='translateX('+pos.toFixed(2)+'px)';
         requestAnimationFrame(step);
       });
@@ -533,18 +552,21 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
   // Experience: the marker is a sun at the top (now) and turns into a moon further down; the tracker counts the current engagement live.
   (function(){
     var d=$('xtl'),mk=$('xmk'),gl=$('xglow'),sunE=mk.children[0],moonE=mk.children[1];
+    // no screen height is used here: the marker's own position along the line says how far through the journey it is
+    var inView=true,tick1=0;
     function tl(){
-      var r=d.getBoundingClientRect(),h=r.height;
-      // the marker starts at the top of the line when the section reaches mid-screen and arrives at the very end of the line once the section's bottom is near the bottom of the screen
-      var top0=innerHeight*.5-24,top1=innerHeight*.88-h,pr=Math.max(0,Math.min(1,(top0-r.top)/Math.max(1,top0-top1))),y=8+pr*(h-48);
-      mk.style.setProperty('--my',y+'px');
+      tick1=0;
+      var r=d.getBoundingClientRect(),m=mk.getBoundingClientRect();
+      var pr=Math.max(0,Math.min(1,(m.top-(r.top+8))/Math.max(1,r.height-48)));
       var night=pr>.55;
       sunE.style.opacity=night?0:1;moonE.style.opacity=night?1:0;
-      var m=mk.getBoundingClientRect(),c=night?'rgba(214,224,190,.17)':'rgba(226,169,63,.2)';
+      var c=night?'rgba(214,224,190,.17)':'rgba(226,169,63,.2)';
       gl.style.background='radial-gradient(circle 300px at '+(m.left+16)+'px '+(m.top+16)+'px,'+c+',transparent 70%)';
-      gl.style.opacity=Math.max(0,Math.min(1,r.bottom/200,(innerHeight-r.top)/200));
+      gl.style.opacity=inView?1:0;
     }
-    addEventListener('scroll',tl,{passive:true});addEventListener('resize',tl);tl();
+    function queue(){if(!tick1)tick1=requestAnimationFrame(tl)}
+    if(window.IntersectionObserver)new IntersectionObserver(function(en){inView=en[0].isIntersecting;queue()}).observe(d);
+    addEventListener('scroll',queue,{passive:true});addEventListener('resize',queue);tl();
 
     var tk=$('tracker'),start=new Date(tk.getAttribute('data-start')),mainBtn=$('tkmain'),full=$('tkfull'),lastS=-1,lastMin=-1;
     var gy=tk.querySelector('[data-g="y"]'),gmo=tk.querySelector('[data-g="mo"]'),gd=tk.querySelector('[data-g="d"]'),sEl=tk.querySelector('[data-k="s"]');
