@@ -221,6 +221,16 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
 .org{font-weight:500;margin-top:2px}
 .bl{margin:12px 0 0;padding-left:18px;display:grid;gap:8px;font-size:.9rem;line-height:1.65;color:var(--muted);max-width:68ch}
 .bl li::marker{color:var(--olive)}
+.xsum{margin:12px 0 0;max-width:62ch;font-size:.95rem;line-height:1.6;color:var(--fg)}
+.more{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:2px 0;border:0;border-radius:0;border-bottom:1px solid color-mix(in srgb,var(--olive) 55%,transparent);background:none;font:500 .82rem var(--f-body);letter-spacing:.04em;color:var(--head);cursor:pointer;transition:border-color .2s}
+.more:hover{border-bottom-color:var(--olive)}
+.more:focus-visible{outline:2px solid var(--olive);outline-offset:4px;border-radius:3px}
+.more svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s}
+.more[aria-expanded="true"] svg{transform:rotate(180deg)}
+.xmore{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+.xmore>div{min-height:0;overflow:hidden;visibility:hidden;transition:visibility 0s .35s}
+.xmore.open{grid-template-rows:1fr}
+.xmore.open>div{visibility:visible;transition-delay:0s}
 .xhead{display:flex;justify-content:space-between;align-items:flex-start;gap:14px 32px;flex-wrap:wrap}
 .tracker{position:relative;display:flex;flex-direction:column;align-items:flex-end;gap:5px;padding-top:6px}
 .tk-label{font:500 .62rem var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
@@ -237,7 +247,8 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
 @media (hover:hover){.tracker:hover .tk-full{opacity:1;visibility:visible;transform:none}}
 @keyframes tickin{from{opacity:.45}to{opacity:1}}
 @media (max-width:560px){.tracker{align-items:flex-start}.tk-full{right:auto;left:0}.xtl{--pad:52px;--lx:19px}}
-@media (prefers-reduced-motion:reduce){.num.flip,.sep{animation:none}.marker span,@media (max-width:699px){h1{max-width:11ch}}
+@media (prefers-reduced-motion:reduce){.g.s b.flip{animation:none}.marker span,.xglow,.tk-full,.xmore,.xmore>div,.more svg{transition:none}}
+@media (max-width:699px){h1{max-width:11ch}}
 @media (prefers-reduced-motion:reduce){.orb,.glow,body{transition:none}.hero.disco-on .ball,.hero.disco-on .ball::before,.hero.disco-on .center{animation:none}}
 </style>
 
@@ -340,19 +351,19 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
             <span class="tk-full" id="tkfull"></span>
           </div>
         </div>
-        <ul class="bl">
+        <p class="xsum">Developer on a US client's ERP and Varicent work, then QA on the same engagement.</p><button class="more" type="button" aria-expanded="false" aria-controls="xm1"><span>Read more</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="xmore" id="xm1"><div inert><ul class="bl">
           <li>Built core ERP components for a US client, integrating Oracle Redwood with the Visual Builder Studio framework. Backend work in Java and Oracle Field Services.</li>
           <li>Moved onto a Varicent incentive compensation implementation as a developer, writing and maintaining the solution design document across the development lifecycle.</li>
           <li>Switched to QA on the same engagement. Ran 3 sprints of Data Integration (Python validation pipelines) and Configuration testing, raised about 10 defects, the highest on the team, and earned lead recognition.</li>
-        </ul>
+        </ul></div></div>
       </article>
       <article class="xentry">
         <div class="when">June – July 2024</div><h3 class="role">AI Intern</h3><div class="org">Diro, Open Banking Platform</div>
-        <ul class="bl">
+        <p class="xsum">Document verification, redaction and translation pipelines for a banking platform.</p><button class="more" type="button" aria-expanded="false" aria-controls="xm2"><span>Read more</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="xmore" id="xm2"><div inert><ul class="bl">
           <li>Designed a data pipeline for confidential document verification, cutting processing time from 20 minutes to under 5 per task while keeping output precision high.</li>
           <li>Built a video redaction pipeline (OCR plus classifier) that finds and masks sensitive fields in confidential bank documents, redacting 7 to 9 of 10 fields per document in early production trials.</li>
           <li>Engineered a prompt-guided document translation pipeline with M2M100 (Hugging Face), writing prompts to control tone and formatting across 10 languages. Built, documented and shipped to production independently.</li>
-        </ul>
+        </ul></div></div>
       </article>
     </div>
   </section>
@@ -573,6 +584,19 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
     function queue(){if(!tick1)tick1=requestAnimationFrame(tl)}
     if(window.IntersectionObserver)new IntersectionObserver(function(en){inView=en[0].isIntersecting;queue()}).observe(d);
     addEventListener('scroll',queue,{passive:true});addEventListener('resize',queue);tl();
+    // roles open on demand: the summary is always there, the detail opens on press
+    [].forEach.call(document.querySelectorAll('.more'),function(btn){
+      var panel=$(btn.getAttribute('aria-controls')),inner=panel.firstElementChild,label=btn.firstElementChild;
+      btn.addEventListener('click',function(){
+        var open=btn.getAttribute('aria-expanded')!=='true';
+        btn.setAttribute('aria-expanded',open);label.textContent=open?'Show less':'Read more';
+        panel.classList.toggle('open',open);
+        if(open)inner.removeAttribute('inert');else inner.setAttribute('inert','');
+        queue();
+      });
+      panel.addEventListener('transitionend',queue);
+    });
+
 
     var tk=$('tracker'),start=new Date(tk.getAttribute('data-start')),mainBtn=$('tkmain'),full=$('tkfull'),lastS=-1,lastMin=-1;
     var gy=tk.querySelector('[data-g="y"]'),gmo=tk.querySelector('[data-g="mo"]'),gd=tk.querySelector('[data-g="d"]'),sEl=tk.querySelector('[data-k="s"]');
