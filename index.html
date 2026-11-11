@@ -107,6 +107,18 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
   .arrow.prev{left:8px}.arrow.next{right:8px}
 }
 @media (prefers-reduced-motion:reduce){.track{transition:none}}
+/* hero jump list: bottom left, level with the disco ball; it scrolls away with the hero */
+html{scroll-behavior:smooth}
+.hnav{position:absolute;z-index:4;left:max(24px,3vw);bottom:clamp(32px,9vh,96px)}
+.hnav-t{display:block;margin-bottom:10px;font:500 .62rem var(--f-body);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.hnav ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:2px}
+.hnav a{display:flex;align-items:center;gap:10px;padding:5px 0;font:500 .78rem var(--f-body);letter-spacing:.08em;color:var(--fg);text-decoration:none;opacity:.8;transition:opacity .2s,color .2s}
+.hnav a::before{content:"";width:14px;height:1.5px;border-radius:1px;background:var(--olive);opacity:.55;transition:width .25s,opacity .25s}
+.hnav a:hover,.hnav a:focus-visible{opacity:1;color:var(--head)}
+.hnav a:hover::before,.hnav a:focus-visible::before{width:28px;opacity:1}
+.hnav a:focus-visible{outline:2px solid var(--olive);outline-offset:4px;border-radius:3px}
+@media (max-width:560px){.hnav{left:20px}.hnav a{font-size:.74rem}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hnav a,.hnav a::before{transition:none}}
 /* skills: questions about Ananya roll left to right; press one to hear the answer */
 .qa{width:min(1040px,calc(100vw - 2*var(--gut)));margin:0 auto;padding-block:40px 64px;display:flex;flex-direction:column;gap:26px}
 .qa .hint{margin:0;font-size:.85rem;color:var(--muted)}
@@ -269,6 +281,9 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
       </svg>
       <canvas class="ball" id="ball" aria-hidden="true"></canvas>
     </button>
+    <nav class="hnav" aria-label="Jump to a section"><span class="hnav-t" aria-hidden="true">Jump to</span>
+      <ul><li><a href="#projects">Projects</a></li><li><a href="#skills">Skills</a></li><li><a href="#experience">Experience</a></li><li><a href="#certifications">Certifications</a></li><li><a href="#contact">Contact</a></li></ul>
+    </nav>
     <div class="center" id="center">
       <p class="eyebrow">Ananya Verma</p>
       <h1 id="h1">Work by day, ideas by night.</h1>
