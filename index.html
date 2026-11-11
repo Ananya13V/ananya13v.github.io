@@ -239,6 +239,8 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
 .xsum{margin:12px 0 0;max-width:62ch;font-size:.95rem;line-height:1.6;color:var(--fg)}
 .more{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:2px 0;border:0;border-radius:0;border-bottom:1px solid color-mix(in srgb,var(--olive) 55%,transparent);background:none;font:500 .82rem var(--f-body);letter-spacing:.04em;color:var(--head);cursor:pointer;transition:border-color .2s}
 .more:hover{border-bottom-color:var(--olive)}
+.info .more{align-self:flex-start;margin-top:0}
+.info .xmore p{margin-top:10px}
 .more:focus-visible{outline:2px solid var(--olive);outline-offset:4px;border-radius:3px}
 .more svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s}
 .more[aria-expanded="true"] svg{transform:rotate(180deg)}
@@ -309,7 +311,7 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
                 <circle cx="318" cy="150" r="46" fill="#f6edc9" fill-opacity=".7" stroke="#4e5b1c" stroke-width="6"/><path d="M351 183l30 30" stroke="#4e5b1c" stroke-width="10" stroke-linecap="round"/>
                 <circle cx="318" cy="150" r="15" fill="#e2a93f"/><g stroke="#e2a93f" stroke-width="3" stroke-linecap="round"><path d="M318 124v-6M318 182v6M292 150h-6M344 150h6"/></g></svg>
             </div>
-            <div class="info"><span class="pstat">In progress</span><h3>What does the doc say</h3><span class="psub">Multi-Source RAG Assistant</span><p>Ask questions across technical documentation, PDFs and code, and get answers grounded in the sources. It is built to take in many kinds of documents and to re-index only what has changed, and it is evaluated with RAGAS.</p><span class="ptech">LangChain · Azure OpenAI · RAGAS</span><a class="plink" href="https://github.com/Ananya13V/multi-source-rag-assistant" target="_blank" rel="noopener">View on GitHub</a></div>
+            <div class="info"><span class="pstat">In progress</span><h3>What does the doc say</h3><span class="psub">Multi-Source RAG Assistant</span><p>Ask questions across technical documentation, PDFs and code, and get answers grounded in the sources.</p><div class="mr"><button class="more" type="button" aria-expanded="false" aria-controls="pm1"><span>Read more</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="xmore" id="pm1"><div inert><p>It is built to take in many kinds of documents and to re-index only what has changed, and it is evaluated with RAGAS.</p></div></div></div><span class="ptech">LangChain · Azure OpenAI · RAGAS</span><a class="plink" href="https://github.com/Ananya13V/multi-source-rag-assistant" target="_blank" rel="noopener">View on GitHub</a></div>
           </article>
           <article class="slide" role="group" aria-roledescription="slide" aria-label="2 of 3" inert>
             <div class="media">
@@ -322,7 +324,7 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
                 <rect x="96" y="100" width="208" height="36" fill="#e9ecd4" opacity=".14"/><rect x="96" y="116" width="208" height="3.5" rx="1.75" fill="#e9ecd4"/>
                 <circle cx="284" cy="56" r="22" fill="#6b7a2a" stroke="#1d2314" stroke-width="4"/><path d="M274 56l7 7 13-14" fill="none" stroke="#f3f2e7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
-            <div class="info"><span class="pstat">In progress</span><h3>Detective Bill</h3><span class="psub">Invoice Processing Agent</span><p>An agentic workflow that takes a messy invoice, as a PDF or an image, then extracts the details, validates them and reconciles them against a database. Anything it is unsure about goes to a human approval step.</p><span class="ptech">Python · FastAPI</span><a class="plink" href="https://github.com/Ananya13V/invoice-agent" target="_blank" rel="noopener">View on GitHub</a></div>
+            <div class="info"><span class="pstat">In progress</span><h3>Detective Bill</h3><span class="psub">Invoice Processing Agent</span><p>An agentic workflow that reads messy invoices, as PDFs or images.</p><div class="mr"><button class="more" type="button" aria-expanded="false" aria-controls="pm2"><span>Read more</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="xmore" id="pm2"><div inert><p>It extracts the details, validates them and reconciles them against a database. Anything it is unsure about goes to a human approval step.</p></div></div></div><span class="ptech">Python · FastAPI</span><a class="plink" href="https://github.com/Ananya13V/invoice-agent" target="_blank" rel="noopener">View on GitHub</a></div>
           </article>
           <article class="slide" role="group" aria-roledescription="slide" aria-label="3 of 3" inert>
             <div class="media">
@@ -333,7 +335,7 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
                 <g fill="none" stroke-width="2.5" stroke-dasharray="2 7" stroke-linecap="round"><path d="M84 124h52" stroke="#8a5f0f"/><path d="M174 124h52" stroke="#8d9470"/><path d="M264 124h52" stroke="#e9ecd4"/></g>
                 <g fill="#f3f2e7" opacity=".85"><circle cx="110" cy="190" r="5"/><circle cx="200" cy="190" r="5" fill="#6b7a2a"/><circle cx="290" cy="190" r="5"/></g></svg>
             </div>
-            <div class="info"><span class="pstat soon">Coming soon</span><h3>Closet</h3><span class="psub">Wardrobe AI</span><p>A wardrobe assistant that will catalogue your clothes from photos using locally hosted vision models, then answer questions in plain language, like what to wear for an occasion or what goes with what.</p><span class="ptech">Ollama · LLaVA · Supabase + pgvector</span></div>
+            <div class="info"><span class="pstat soon">Coming soon</span><h3>Closet</h3><span class="psub">Wardrobe AI</span><p>A wardrobe assistant that will catalogue your clothes from photos.</p><div class="mr"><button class="more" type="button" aria-expanded="false" aria-controls="pm3"><span>Read more</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="xmore" id="pm3"><div inert><p>It will use locally hosted vision models, then answer questions in plain language, like what to wear for an occasion or what goes with what.</p></div></div></div><span class="ptech">Ollama · LLaVA · Supabase + pgvector</span></div>
           </article>
         </div>
       </div>
