@@ -17,16 +17,16 @@
 /* Layout: one scrolling page. Hero first: the heading sits at the centre of a half-ellipse orbit; the sun (6am-6pm) or moon (6pm-6am) travels along it by local time and lights the text. */
 :root{
   --gut:clamp(16px,4vw,40px);
-  --bg:#f3f2e7; --fg:#262a1b; --muted:#6a6f55; --line:#cfcfb6; --surface:#e9e8d6;
-  --head:#4e5b1c; --olive:#6b7a2a; --shadow-c:78 91 28;
+  --bg:#f3f2e7; --fg:#262a1b; --muted:#5f644b; --line:#cfcfb6; --surface:#e7e8d3;
+  --head:#4e5b1c; --olive:#5d6c1f; --action:#8a5806; --shadow-c:78 91 28;
   --f-head:'Playfair Display',Georgia,serif; --f-body:'DM Sans',system-ui,sans-serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#15180f; --fg:#e8e9d6; --muted:#a2a888; --line:#333a22; --surface:#1e2315;
-  --head:#c3d371; --olive:#a3b64a; --shadow-c:0 0 0; color-scheme:dark}}
+  --bg:#15180f; --fg:#e8e9d6; --muted:#a9af8f; --line:#333a22; --surface:#1e2315;
+  --head:#c3d371; --olive:#b0c354; --action:#eab95a; --shadow-c:0 0 0; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#15180f; --fg:#e8e9d6; --muted:#a2a888; --line:#333a22; --surface:#1e2315;
-  --head:#c3d371; --olive:#a3b64a; --shadow-c:0 0 0; color-scheme:dark}
+  --bg:#15180f; --fg:#e8e9d6; --muted:#a9af8f; --line:#333a22; --surface:#1e2315;
+  --head:#c3d371; --olive:#b0c354; --action:#eab95a; --shadow-c:0 0 0; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--f-body);padding-inline:0;transition:background .6s,color .6s}
 html,body{overflow-x:clip}
 .page{margin:0 auto}
@@ -88,8 +88,8 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
 .pstat.soon::before{background:none;border:1.5px solid var(--olive)}
 .psub{margin-top:-6px;font:500 .9rem var(--f-body);letter-spacing:.02em;color:var(--fg);opacity:.75}
 .ptech{font:500 .78rem var(--f-body);letter-spacing:.03em;color:var(--muted)}
-.plink{align-self:flex-start;font:500 .85rem var(--f-body);color:var(--head);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--olive) 55%,transparent);padding-bottom:1px;transition:border-color .2s}
-.plink:hover{border-bottom-color:var(--olive)}
+.plink{align-self:flex-start;font:500 .85rem var(--f-body);color:var(--action);text-decoration:none;border-bottom:1.5px solid var(--sunc);padding-bottom:1px;transition:border-color .2s}
+.plink:hover{border-bottom-color:var(--action)}
 .plink:focus-visible{outline:2px solid var(--olive);outline-offset:4px;border-radius:3px}
 .arrow{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--head);display:grid;place-items:center;padding:0;cursor:pointer;transition:opacity .25s,visibility .25s,border-color .2s,transform .2s}
 .arrow:hover{border-color:var(--olive);transform:scale(1.06)}
@@ -107,6 +107,21 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
   .arrow.prev{left:8px}.arrow.next{right:8px}
 }
 @media (prefers-reduced-motion:reduce){.track{transition:none}}
+/* hero links: one line across the top of the hero; it scrolls away with the hero */
+html{scroll-behavior:smooth}
+.hnav{position:absolute;z-index:4;top:calc(env(safe-area-inset-top,0px) + 20px);left:max(24px,3vw)}
+.hnav ul{margin:0;padding:0;list-style:none;display:flex;gap:30px}
+.hnav a{position:relative;display:block;padding:7px 0;font:500 .72rem var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;white-space:nowrap;transition:color .2s}
+.hnav a::after{content:"";position:absolute;left:0;right:0;bottom:3px;height:1.5px;border-radius:1px;background:var(--sunc);transform:scaleX(0);transform-origin:left;transition:transform .25s}
+.hnav a:hover,.hnav a:focus-visible{color:var(--action)}
+.hnav a:hover::after,.hnav a:focus-visible::after{transform:scaleX(1)}
+.hnav a:focus-visible{outline:2px solid var(--olive);outline-offset:3px;border-radius:3px}
+@media (max-width:560px){
+  .hnav{left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 62px);display:flex;justify-content:center}
+  .hnav ul{max-width:290px;flex-wrap:wrap;justify-content:center;gap:0 20px}
+  .hnav a{font-size:.66rem;letter-spacing:.1em}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hnav a,.hnav a::after{transition:none}}
 /* skills: questions about Ananya roll left to right; press one to hear the answer */
 .qa{width:min(1040px,calc(100vw - 2*var(--gut)));margin:0 auto;padding-block:40px 64px;display:flex;flex-direction:column;gap:26px}
 .qa .hint{margin:0;font-size:.85rem;color:var(--muted)}
@@ -186,7 +201,7 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
 .ico.lc{background:currentColor;--m:url("data:image/png;base64,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");-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat;width:22px;height:23px;justify-self:center}
 .arow:hover .ico{color:var(--olive);transform:scale(1.08)}
 .alab{font:500 .64rem var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-.aval{font:500 clamp(.98rem,2.4vw,1.12rem)/1.3 var(--f-body);color:var(--head);text-decoration:none;overflow-wrap:anywhere}
+.aval{font:500 clamp(.98rem,2.4vw,1.12rem)/1.3 var(--f-body);color:var(--action);text-decoration:none;overflow-wrap:anywhere}
 a.aval:hover{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
 a.aval:focus-visible,.copy:focus-visible{outline:2px solid var(--olive);outline-offset:3px;border-radius:3px}
 a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
@@ -221,6 +236,18 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
 .org{font-weight:500;margin-top:2px}
 .bl{margin:12px 0 0;padding-left:18px;display:grid;gap:8px;font-size:.9rem;line-height:1.65;color:var(--muted);max-width:68ch}
 .bl li::marker{color:var(--olive)}
+.xsum{margin:12px 0 0;max-width:62ch;font-size:.95rem;line-height:1.6;color:var(--fg)}
+.more{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:2px 0;border:0;border-radius:0;border-bottom:1.5px solid var(--sunc);background:none;font:500 .82rem var(--f-body);letter-spacing:.04em;color:var(--action);cursor:pointer;transition:border-color .2s}
+.more:hover{border-bottom-color:var(--action)}
+.info .more{align-self:flex-start;margin-top:0}
+.info .xmore p{margin-top:10px}
+.more:focus-visible{outline:2px solid var(--olive);outline-offset:4px;border-radius:3px}
+.more svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s}
+.more[aria-expanded="true"] svg{transform:rotate(180deg)}
+.xmore{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+.xmore>div{min-height:0;overflow:hidden;visibility:hidden;transition:visibility 0s .35s}
+.xmore.open{grid-template-rows:1fr}
+.xmore.open>div{visibility:visible;transition-delay:0s}
 .xhead{display:flex;justify-content:space-between;align-items:flex-start;gap:14px 32px;flex-wrap:wrap}
 .tracker{position:relative;display:flex;flex-direction:column;align-items:flex-end;gap:5px;padding-top:6px}
 .tk-label{font:500 .62rem var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
@@ -237,7 +264,8 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
 @media (hover:hover){.tracker:hover .tk-full{opacity:1;visibility:visible;transform:none}}
 @keyframes tickin{from{opacity:.45}to{opacity:1}}
 @media (max-width:560px){.tracker{align-items:flex-start}.tk-full{right:auto;left:0}.xtl{--pad:52px;--lx:19px}}
-@media (prefers-reduced-motion:reduce){.num.flip,.sep{animation:none}.marker span,@media (max-width:699px){h1{max-width:11ch}}
+@media (prefers-reduced-motion:reduce){.g.s b.flip{animation:none}.marker span,.xglow,.tk-full,.xmore,.xmore>div,.more svg{transition:none}}
+@media (max-width:699px){h1{max-width:11ch}}
 @media (prefers-reduced-motion:reduce){.orb,.glow,body{transition:none}.hero.disco-on .ball,.hero.disco-on .ball::before,.hero.disco-on .center{animation:none}}
 </style>
 
@@ -258,6 +286,8 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
       </svg>
       <canvas class="ball" id="ball" aria-hidden="true"></canvas>
     </button>
+    <nav class="hnav" aria-label="Jump to a section"><ul><li><a href="#projects">Projects</a></li><li><a href="#skills">Skills</a></li><li><a href="#experience">Experience</a></li><li><a href="#certifications">Certifications</a></li><li><a href="#contact">Contact</a></li></ul>
+    </nav>
     <div class="center" id="center">
       <p class="eyebrow">Ananya Verma</p>
       <h1 id="h1">Work by day, ideas by night.</h1>
@@ -281,7 +311,7 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
                 <circle cx="318" cy="150" r="46" fill="#f6edc9" fill-opacity=".7" stroke="#4e5b1c" stroke-width="6"/><path d="M351 183l30 30" stroke="#4e5b1c" stroke-width="10" stroke-linecap="round"/>
                 <circle cx="318" cy="150" r="15" fill="#e2a93f"/><g stroke="#e2a93f" stroke-width="3" stroke-linecap="round"><path d="M318 124v-6M318 182v6M292 150h-6M344 150h6"/></g></svg>
             </div>
-            <div class="info"><span class="pstat">In progress</span><h3>What does the doc say</h3><span class="psub">Multi-Source RAG Assistant</span><p>Ask questions across technical documentation, PDFs and code, and get answers grounded in the sources. It is built to take in many kinds of documents and to re-index only what has changed, and it is evaluated with RAGAS.</p><span class="ptech">LangChain · Azure OpenAI · RAGAS</span><a class="plink" href="https://github.com/Ananya13V/multi-source-rag-assistant" target="_blank" rel="noopener">View on GitHub</a></div>
+            <div class="info"><span class="pstat">In progress</span><h3>What does the doc say</h3><span class="psub">Multi-Source RAG Assistant</span><p>Ask questions across technical documentation, PDFs and code, and get answers grounded in the sources.</p><div class="mr"><button class="more" type="button" aria-expanded="false" aria-controls="pm1"><span>Read more</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="xmore" id="pm1"><div inert><p>It is built to take in many kinds of documents and to re-index only what has changed, and it is evaluated with RAGAS.</p></div></div></div><span class="ptech">LangChain · Azure OpenAI · RAGAS</span><a class="plink" href="https://github.com/Ananya13V/multi-source-rag-assistant" target="_blank" rel="noopener">View on GitHub</a></div>
           </article>
           <article class="slide" role="group" aria-roledescription="slide" aria-label="2 of 3" inert>
             <div class="media">
@@ -294,7 +324,7 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
                 <rect x="96" y="100" width="208" height="36" fill="#e9ecd4" opacity=".14"/><rect x="96" y="116" width="208" height="3.5" rx="1.75" fill="#e9ecd4"/>
                 <circle cx="284" cy="56" r="22" fill="#6b7a2a" stroke="#1d2314" stroke-width="4"/><path d="M274 56l7 7 13-14" fill="none" stroke="#f3f2e7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
-            <div class="info"><span class="pstat">In progress</span><h3>Detective Bill</h3><span class="psub">Invoice Processing Agent</span><p>An agentic workflow that takes a messy invoice, as a PDF or an image, then extracts the details, validates them and reconciles them against a database. Anything it is unsure about goes to a human approval step.</p><span class="ptech">Python · FastAPI</span><a class="plink" href="https://github.com/Ananya13V/invoice-agent" target="_blank" rel="noopener">View on GitHub</a></div>
+            <div class="info"><span class="pstat">In progress</span><h3>Detective Bill</h3><span class="psub">Invoice Processing Agent</span><p>An agentic workflow that reads messy invoices, as PDFs or images.</p><div class="mr"><button class="more" type="button" aria-expanded="false" aria-controls="pm2"><span>Read more</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="xmore" id="pm2"><div inert><p>It extracts the details, validates them and reconciles them against a database. Anything it is unsure about goes to a human approval step.</p></div></div></div><span class="ptech">Python · FastAPI</span><a class="plink" href="https://github.com/Ananya13V/invoice-agent" target="_blank" rel="noopener">View on GitHub</a></div>
           </article>
           <article class="slide" role="group" aria-roledescription="slide" aria-label="3 of 3" inert>
             <div class="media">
@@ -305,7 +335,7 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
                 <g fill="none" stroke-width="2.5" stroke-dasharray="2 7" stroke-linecap="round"><path d="M84 124h52" stroke="#8a5f0f"/><path d="M174 124h52" stroke="#8d9470"/><path d="M264 124h52" stroke="#e9ecd4"/></g>
                 <g fill="#f3f2e7" opacity=".85"><circle cx="110" cy="190" r="5"/><circle cx="200" cy="190" r="5" fill="#6b7a2a"/><circle cx="290" cy="190" r="5"/></g></svg>
             </div>
-            <div class="info"><span class="pstat soon">Coming soon</span><h3>Closet</h3><span class="psub">Wardrobe AI</span><p>A wardrobe assistant that will catalogue your clothes from photos using locally hosted vision models, then answer questions in plain language, like what to wear for an occasion or what goes with what.</p><span class="ptech">Ollama · LLaVA · Supabase + pgvector</span></div>
+            <div class="info"><span class="pstat soon">Coming soon</span><h3>Closet</h3><span class="psub">Wardrobe AI</span><p>A wardrobe assistant that will catalogue your clothes from photos.</p><div class="mr"><button class="more" type="button" aria-expanded="false" aria-controls="pm3"><span>Read more</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="xmore" id="pm3"><div inert><p>It will use locally hosted vision models, then answer questions in plain language, like what to wear for an occasion or what goes with what.</p></div></div></div><span class="ptech">Ollama · LLaVA · Supabase + pgvector</span></div>
           </article>
         </div>
       </div>
@@ -340,19 +370,19 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
             <span class="tk-full" id="tkfull"></span>
           </div>
         </div>
-        <ul class="bl">
+        <p class="xsum">Developer on a US client's ERP and Varicent work, then QA on the same engagement.</p><button class="more" type="button" aria-expanded="false" aria-controls="xm1"><span>Read more</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="xmore" id="xm1"><div inert><ul class="bl">
           <li>Built core ERP components for a US client, integrating Oracle Redwood with the Visual Builder Studio framework. Backend work in Java and Oracle Field Services.</li>
           <li>Moved onto a Varicent incentive compensation implementation as a developer, writing and maintaining the solution design document across the development lifecycle.</li>
           <li>Switched to QA on the same engagement. Ran 3 sprints of Data Integration (Python validation pipelines) and Configuration testing, raised about 10 defects, the highest on the team, and earned lead recognition.</li>
-        </ul>
+        </ul></div></div>
       </article>
       <article class="xentry">
         <div class="when">June – July 2024</div><h3 class="role">AI Intern</h3><div class="org">Diro, Open Banking Platform</div>
-        <ul class="bl">
+        <p class="xsum">Document verification, redaction and translation pipelines for a banking platform.</p><button class="more" type="button" aria-expanded="false" aria-controls="xm2"><span>Read more</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="xmore" id="xm2"><div inert><ul class="bl">
           <li>Designed a data pipeline for confidential document verification, cutting processing time from 20 minutes to under 5 per task while keeping output precision high.</li>
           <li>Built a video redaction pipeline (OCR plus classifier) that finds and masks sensitive fields in confidential bank documents, redacting 7 to 9 of 10 fields per document in early production trials.</li>
           <li>Engineered a prompt-guided document translation pipeline with M2M100 (Hugging Face), writing prompts to control tone and formatting across 10 languages. Built, documented and shipped to production independently.</li>
-        </ul>
+        </ul></div></div>
       </article>
     </div>
   </section>
@@ -406,7 +436,7 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
     // the heading block sits in the vertical middle of the first screen; the hero is one screen tall
     var bh=center.offsetHeight,H=parseFloat(getComputedStyle(hero).minHeight)||Math.max(560,Math.min(window.innerHeight||700,900)); // the hero is one small-viewport screen tall (svh), set in CSS
     var padT=Math.max(48,(H-bh)/2),cx=w/2,cyA=padT+bh+4;
-    var ry=Math.min(mob?Math.min(w*.72,280):Math.min(w*.33,320),cyA-46),rx=Math.max(120,w/2-(mob?26:48));
+    var ry=Math.min(mob?Math.min(w*.72,280):Math.min(w*.33,320),cyA-72),rx=Math.max(120,w/2-(mob?26:48));
     hero.style.paddingTop=padT+'px';hero.style.paddingBottom=Math.max(120,H-padT-bh)+'px';
     var th=Math.PI*(1-p),x=cx+rx*Math.cos(th),y=cyA-ry*Math.sin(th);
     var sS=46*sz,mS=40*sz;
@@ -573,6 +603,19 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
     function queue(){if(!tick1)tick1=requestAnimationFrame(tl)}
     if(window.IntersectionObserver)new IntersectionObserver(function(en){inView=en[0].isIntersecting;queue()}).observe(d);
     addEventListener('scroll',queue,{passive:true});addEventListener('resize',queue);tl();
+    // roles open on demand: the summary is always there, the detail opens on press
+    [].forEach.call(document.querySelectorAll('.more'),function(btn){
+      var panel=$(btn.getAttribute('aria-controls')),inner=panel.firstElementChild,label=btn.firstElementChild;
+      btn.addEventListener('click',function(){
+        var open=btn.getAttribute('aria-expanded')!=='true';
+        btn.setAttribute('aria-expanded',open);label.textContent=open?'Show less':'Read more';
+        panel.classList.toggle('open',open);
+        if(open)inner.removeAttribute('inert');else inner.setAttribute('inert','');
+        queue();
+      });
+      panel.addEventListener('transitionend',queue);
+    });
+
 
     var tk=$('tracker'),start=new Date(tk.getAttribute('data-start')),mainBtn=$('tkmain'),full=$('tkfull'),lastS=-1,lastMin=-1;
     var gy=tk.querySelector('[data-g="y"]'),gmo=tk.querySelector('[data-g="mo"]'),gd=tk.querySelector('[data-g="d"]'),sEl=tk.querySelector('[data-k="s"]');
