@@ -107,18 +107,21 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
   .arrow.prev{left:8px}.arrow.next{right:8px}
 }
 @media (prefers-reduced-motion:reduce){.track{transition:none}}
-/* hero jump list: bottom left, level with the disco ball; it scrolls away with the hero */
+/* hero links: one line across the top of the hero; it scrolls away with the hero */
 html{scroll-behavior:smooth}
-.hnav{position:absolute;z-index:4;left:max(24px,3vw);bottom:clamp(32px,9vh,96px)}
-.hnav-t{display:block;margin-bottom:10px;font:500 .62rem var(--f-body);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-.hnav ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:2px}
-.hnav a{display:flex;align-items:center;gap:10px;padding:5px 0;font:500 .78rem var(--f-body);letter-spacing:.08em;color:var(--fg);text-decoration:none;opacity:.8;transition:opacity .2s,color .2s}
-.hnav a::before{content:"";width:14px;height:1.5px;border-radius:1px;background:var(--olive);opacity:.55;transition:width .25s,opacity .25s}
-.hnav a:hover,.hnav a:focus-visible{opacity:1;color:var(--head)}
-.hnav a:hover::before,.hnav a:focus-visible::before{width:28px;opacity:1}
-.hnav a:focus-visible{outline:2px solid var(--olive);outline-offset:4px;border-radius:3px}
-@media (max-width:560px){.hnav{left:20px}.hnav a{font-size:.74rem}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hnav a,.hnav a::before{transition:none}}
+.hnav{position:absolute;z-index:4;top:calc(env(safe-area-inset-top,0px) + 20px);left:max(24px,3vw)}
+.hnav ul{margin:0;padding:0;list-style:none;display:flex;gap:30px}
+.hnav a{position:relative;display:block;padding:7px 0;font:500 .72rem var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;white-space:nowrap;transition:color .2s}
+.hnav a::after{content:"";position:absolute;left:0;right:0;bottom:3px;height:1.5px;border-radius:1px;background:var(--olive);transform:scaleX(0);transform-origin:left;transition:transform .25s}
+.hnav a:hover,.hnav a:focus-visible{color:var(--head)}
+.hnav a:hover::after,.hnav a:focus-visible::after{transform:scaleX(1)}
+.hnav a:focus-visible{outline:2px solid var(--olive);outline-offset:3px;border-radius:3px}
+@media (max-width:560px){
+  .hnav{left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 62px);display:flex;justify-content:center}
+  .hnav ul{max-width:290px;flex-wrap:wrap;justify-content:center;gap:0 20px}
+  .hnav a{font-size:.66rem;letter-spacing:.1em}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hnav a,.hnav a::after{transition:none}}
 /* skills: questions about Ananya roll left to right; press one to hear the answer */
 .qa{width:min(1040px,calc(100vw - 2*var(--gut)));margin:0 auto;padding-block:40px 64px;display:flex;flex-direction:column;gap:26px}
 .qa .hint{margin:0;font-size:.85rem;color:var(--muted)}
@@ -281,8 +284,7 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
       </svg>
       <canvas class="ball" id="ball" aria-hidden="true"></canvas>
     </button>
-    <nav class="hnav" aria-label="Jump to a section"><span class="hnav-t" aria-hidden="true">Jump to</span>
-      <ul><li><a href="#projects">Projects</a></li><li><a href="#skills">Skills</a></li><li><a href="#experience">Experience</a></li><li><a href="#certifications">Certifications</a></li><li><a href="#contact">Contact</a></li></ul>
+    <nav class="hnav" aria-label="Jump to a section"><ul><li><a href="#projects">Projects</a></li><li><a href="#skills">Skills</a></li><li><a href="#experience">Experience</a></li><li><a href="#certifications">Certifications</a></li><li><a href="#contact">Contact</a></li></ul>
     </nav>
     <div class="center" id="center">
       <p class="eyebrow">Ananya Verma</p>
@@ -432,7 +434,7 @@ a.aval::after{content:" \2197";font:400 .8rem var(--f-body);color:var(--muted)}
     // the heading block sits in the vertical middle of the first screen; the hero is one screen tall
     var bh=center.offsetHeight,H=parseFloat(getComputedStyle(hero).minHeight)||Math.max(560,Math.min(window.innerHeight||700,900)); // the hero is one small-viewport screen tall (svh), set in CSS
     var padT=Math.max(48,(H-bh)/2),cx=w/2,cyA=padT+bh+4;
-    var ry=Math.min(mob?Math.min(w*.72,280):Math.min(w*.33,320),cyA-46),rx=Math.max(120,w/2-(mob?26:48));
+    var ry=Math.min(mob?Math.min(w*.72,280):Math.min(w*.33,320),cyA-72),rx=Math.max(120,w/2-(mob?26:48));
     hero.style.paddingTop=padT+'px';hero.style.paddingBottom=Math.max(120,H-padT-bh)+'px';
     var th=Math.PI*(1-p),x=cx+rx*Math.cos(th),y=cyA-ry*Math.sin(th);
     var sS=46*sz,mS=40*sz;
